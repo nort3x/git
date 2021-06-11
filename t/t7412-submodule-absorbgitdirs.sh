@@ -29,6 +29,7 @@ test_expect_success 'absorb the git dir' '
 	test -d .git/modules/sub1 &&
 	git status >actual.1 &&
 	git -C sub1 rev-parse HEAD >actual.2 &&
+	test . -ef "$(git -C sub1 config submodule.superprojectGitDir)" &&
 	test_cmp expect.1 actual.1 &&
 	test_cmp expect.2 actual.2
 '
