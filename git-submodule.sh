@@ -586,6 +586,15 @@ cmd_update()
 			fi
 		fi
 
+		# Cache a pointer to the superproject's gitdir. This may have
+		# changed, so rewrite it unconditionally. Writes it to worktree
+		# if applicable, otherwise to local.
+
+		sp_gitdir="$(git rev-parse --absolute-git-dir)"
+		relative_gitdir="$(realpath --relative-to "$sm_path" "$sp_gitdir")"
+		git -C "$sm_path" config --worktree \
+			submodule.superprojectgitdir "$relative_gitdir"
+
 		if test -n "$recursive"
 		then
 			(
